@@ -1,0 +1,10 @@
+img{
+    margin: 1cm auto;
+}
+
+#content{
+    width: 21cm;
+    min-height: 29.7cm;
+    padding: 2cm;
+    border-radius: 5px;
+}

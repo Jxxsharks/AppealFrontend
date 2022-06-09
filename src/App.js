@@ -14,6 +14,8 @@ import {
   Routes,
   Route,
 } from "react-router-dom";
+import PrintScore from './pages/PrintScore';
+
 
 
 
@@ -30,6 +32,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/personnel" element={<Swap />}>
           <Route index element={<PersonnelStable />} />
+          <Route path="petitionscore/print" element={<PrintScore />}/>
           <Route path="petitionscore" element={<PersonnelStable />} />
           <Route path="petition/:petition_id" element={<PetitionForm />} />
         </Route>
