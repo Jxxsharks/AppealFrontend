@@ -13,14 +13,16 @@ import {
 } from "@mui/material";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { useNavigate, useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
+
 const ScoreTable = ({ petitions }) => {
+  const state = useSelector(state => state.userInfo.value)
   const navigate = useNavigate()
   const location = useLocation()
   const date = (dates) => {
     let getDate = new Date(dates)
     return getDate.getDate() + '/' +  getDate.getMonth() + '/' +  (getDate.getFullYear()+543)
   }
-
   return (
       <>   
     <Typography variant="h4" mb={2}>รายการยื่นคำร้องตรวจสอบระดับคะแนน</Typography>
@@ -52,13 +54,19 @@ const ScoreTable = ({ petitions }) => {
             <TableCell align="right">{petition.professor}</TableCell>
             <TableCell align="right">{petition.score_type}</TableCell>
             <TableCell align="right">{date(petition.date)}</TableCell>
+            {state.isStudent ? 
+            <>
             <TableCell align="right">
                 <Chip 
                 label={petition.status}
                 variant="outlined" 
                 sx={{
                     borderColor:
-                    ((petition.status === 'รออนุมัติ' && '#FFAB0B')),
+                    ((petition.status === 'รออนุมัติ' && '#FFAB0B')||
+                      (petition.status === 'ไม่อนุมัติ' && 'red')||
+                      (petition.status === 'สำเร็จ' && 'green')||
+                      'orange'
+                      ),
                     borderWidth:'3px'
                 }}
                 />
@@ -78,6 +86,43 @@ const ScoreTable = ({ petitions }) => {
                  }
                } } clickable/>            
             </TableCell>
+            </>
+            : state.positionid === 1 ?
+            <>
+            <TableCell align="right">
+                <Chip 
+                label={petition.status}
+                variant="outlined" 
+                sx={{
+                    borderColor:
+                    ((petition.status === 'รออนุมัติ' && '#FFAB0B')||
+                      (petition.status === 'ไม่อนุมัติ' && 'red')||
+                      (petition.status === 'สำเร็จ' && 'green')||
+                      'orange'
+                      ),
+                    borderWidth:'3px'
+                }}
+                />
+            </TableCell>
+            <TableCell align="right">
+              <Chip
+              sx={{
+                display:'flex',
+                margin: '5px auto', 
+                justifyContent:'center'
+              }}
+               icon={<VisibilityIcon  />}  variant="outlined" onClick={() =>{
+                 if(location.pathname.split('/')[1] === "student"){
+                  navigate(`/student/petition/${petition.id}`)
+                 }else{
+                  navigate(`/personnel/petition/${petition.id}`)
+                 }
+               } } clickable/>            
+            </TableCell>
+            </>
+            : <></>
+            }
+            
           </TableRow>
         ))}
       </TableBody>

@@ -30,6 +30,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/personnel" element={<Swap />}>
           <Route index element={<PersonnelStable />} />
+          <Route path="petitionscore" element={<PersonnelStable />} />
           <Route path="petition/:petition_id" element={<PetitionForm />} />
         </Route>
         <Route path="/student" element={<Swap />}>
